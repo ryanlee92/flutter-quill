@@ -143,6 +143,7 @@ class QuillEditor extends StatefulWidget {
     required this.scrollController,
     required this.controller,
     this.config = const QuillEditorConfig(),
+    this.cursorStyle,
     super.key,
   }) {
     // Store editor config in the controller to pass them to the document to
@@ -156,6 +157,7 @@ class QuillEditor extends StatefulWidget {
     Key? key,
     QuillEditorConfig config = const QuillEditorConfig(),
     FocusNode? focusNode,
+    CursorStyle? cursorStyle,
     ScrollController? scrollController,
   }) {
     return QuillEditor(
@@ -163,9 +165,12 @@ class QuillEditor extends StatefulWidget {
       scrollController: scrollController ?? ScrollController(),
       focusNode: focusNode ?? FocusNode(),
       controller: controller,
+      cursorStyle: cursorStyle,
       config: config,
     );
   }
+    
+  final CursorStyle? cursorStyle;
 
   /// Controller object which establishes a link between a rich text document
   /// and this editor.
@@ -286,7 +291,7 @@ class QuillEditorState extends State<QuillEditor>
             : null,
         showSelectionHandles: isMobile,
         showCursor: config.showCursor ?? true,
-        cursorStyle: CursorStyle(
+        cursorStyle: widget.cursorStyle ?? CursorStyle(
           color: cursorColor,
           backgroundColor: Colors.grey,
           width: 2,
