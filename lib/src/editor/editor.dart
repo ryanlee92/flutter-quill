@@ -228,6 +228,27 @@ class QuillEditorState extends State<QuillEditor>
     });
   }
 
+  QuillEditorContextMenuBuilder? _buildContextMenuBuilder(bool showSelectionToolbar) {
+    if (!showSelectionToolbar) {
+      return null;
+    }
+
+    
+      return (context, state) {
+        if (QuillSystemContextMenu.isSupported(context)) {
+          return QuillSystemContextMenu.quillEditor(
+            quillEditorState: state,
+          );
+        }
+        return (config.contextMenuBuilder ??
+                QuillRawEditorConfig.defaultContextMenuBuilder)(
+            context, state);
+      };
+    
+
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -283,6 +304,7 @@ class QuillEditorState extends State<QuillEditor>
         readOnly: controller.readOnly,
         checkBoxReadOnly: config.checkBoxReadOnly,
         disableClipboard: config.disableClipboard,
+        contextMenuBuilder: _buildContextMenuBuilder(showSelectionToolbar),
         placeholder: config.placeholder,
         onLaunchUrl: config.onLaunchUrl,
         contextMenuBuilder: showSelectionToolbar
